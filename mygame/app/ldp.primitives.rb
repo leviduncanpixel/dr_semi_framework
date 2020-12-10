@@ -1,6 +1,6 @@
 require "/app/serialize.rb"
 
-module LDP
+module DRF
   class Color
     def initialize(red: 0, green: 0, blue: 0, alpha: 255)
       @red = red.clamp(0, 255)

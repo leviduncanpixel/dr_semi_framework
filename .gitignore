@@ -59,6 +59,7 @@ build-iPhoneSimulator/
 /logs/
 console_history.txt
 *.exe
+mygame/app/main.rb
 mygame/data/
 mygame/fonts/
 mygame/metadata/
