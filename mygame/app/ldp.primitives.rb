@@ -207,8 +207,3 @@ module LDP
 
   end
 end
-
-
-def tick args
-  args.outputs.lines << LDP::Line.new(x_pos1: 0, y_pos1: 0, x_pos1: 1280, y_pos1: 720)
-end
