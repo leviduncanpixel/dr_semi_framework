@@ -20,37 +20,37 @@ module LDP
     attr_reader :WHITE, :BLACK, :RED, :GREEN, :BLUE
 
     def with_red(red: @red)
-      Color.new(red.clamp(0, 255), @green, @blue, @alpha)
+      Color.new(red: red.clamp(0, 255), green: @green, blue: @blue, alpha: @alpha)
     end
 
     def with_green(green: @green)
-      Color.new(@red, green.clamp(0, 255), @blue, @alpha)
+      Color.new(red: @red, green: green.clamp(0, 255), blue: @blue, alpha: @alpha)
     end
 
     def with_blue(blue: @blue)
-      Color.new(@red, @green, blue.clamp(0, 255), @alpha)
+      Color.new(red: @red, green: @green, blue: blue.clamp(0, 255), alpha: @alpha)
     end
 
     def with_alpha(alpha: @alpha)
-      Color.new(@red, @green, @blue, alpha.clamp(0, 255))
+      Color.new(red: @red, green: @green, blue: @blue, alpha: alpha.clamp(0, 255))
     end
 
-    def set_red!(red:)
+    def set_red!(red: @red)
       @red = red.clamp(0, 255)
       self
     end
 
-    def set_green!(green:)
+    def set_green!(green: @green)
       @green = green.clamp(0, 255)
       self
     end
 
-    def set_blue!(blue:)
+    def set_blue!(blue: @blue)
       @blue = blue.clamp(0, 255)
       self
     end
 
-    def set_alpha!(alpha:)
+    def set_alpha!(alpha: @alpha)
       @alpha = alpha.clamp(0, 255)
       self
     end
@@ -68,8 +68,8 @@ module LDP
       @alpha = color.alpha
     end
 
-    def make_new(x_pos: @x_pos, y_pos: @y_pos, color: @color)
-      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color)
+    def make_new_with(x_pos: @x_pos, x_comp: 0, y_pos: @y_pos, y_comp: 0, color: @color)
+      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp)
     end
 
     def set_color!(color: @color)
@@ -83,6 +83,12 @@ module LDP
     def set_pos!(x_pos: @x_pos, y_pos: @y_pos)
       @x_pos = x_pos#.clamp(0, 1280)
       @y_pos = y_pos#.clamp(0, 720)
+      self
+    end
+
+    def add_pos!(x_comp: 0, y_comp: 0)
+      @x_pos += x_comp
+      @y_pos += y_comp
       self
     end
 
@@ -107,6 +113,17 @@ module LDP
       super(x_pos: x_pos, y_pos: y_pos, color: color)
       @width = width
       @height = height
+    end
+
+    def set_sizes!(width: @width, height: @height)
+      @width = width
+      @height = height
+      self
+    end
+
+    def make_new_with(x_pos: @x_pos, x_comp: 0, y_pos: @y_pos, y_comp: 0, width: @width, height: @height, color: @color)
+      # self.class.new(x_pos: x_pos, y_pos: y_pos, color: color, width: width, height: height).add_pos!(x_comp: x_comp, y_comp: y_comp)
+      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp).set_sizes!(width: width, height: height)
     end
 
     attr_reader :width, :height
@@ -168,6 +185,16 @@ module LDP
       @height = height
     end
 
+    def set_sizes!(width: @width, height: @height)
+      @width = width
+      @height = height
+      self
+    end
+
+    def make_new_with(x_pos: @x_pos, x_comp: 0, y_pos: @y_pos, y_comp: 0, width: @width, height: @height, color: @color)
+      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp).set_sizes!(width: width, height: height)
+    end
+
     attr_reader :width, :height
 
     alias w width
@@ -198,6 +225,14 @@ module LDP
       @y_pos2 = y_pos2
     end
 
+    def set_ends!(x_pos1: @x_pos, y_pos1: @y_pos, x_pos2: @x_pos2, y_pos2: @y_pos2)
+      @x_pos = x_pos1
+      @y_pos = y_pos1
+      @x_pos2 = x_pos2
+      @y_pos2 = y_pos2
+      self
+    end
+
     attr_reader :x_pos2, :y_pos2
 
     alias x2 x_pos2
@@ -205,5 +240,16 @@ module LDP
 
     include Serialize
 
+  end
+
+  class StaticLine < Line
+    def primitive_marker
+      :static_line
+    end
+
+    def initialize(x_pos1: 0, y_pos1: 0, x_pos2: 0, y_pos2: 0, color: Color::BLACK)
+      super(x_pos1: x_pos1, y_pos1: y_pos1, x_pos2: x_pos2, y_pos2: y_pos2, color: color)
+      $gtk.args.outputs.static_lines << self
+    end
   end
 end
