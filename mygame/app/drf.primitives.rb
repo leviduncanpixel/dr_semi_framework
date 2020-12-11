@@ -19,38 +19,38 @@ module DRF
 
     attr_reader :WHITE, :BLACK, :RED, :GREEN, :BLUE
 
-    def with_red(red: @red)
+    def with_red(red)
       Color.new(red: red.clamp(0, 255), green: @green, blue: @blue, alpha: @alpha)
     end
 
-    def with_green(green: @green)
+    def with_green(green)
       Color.new(red: @red, green: green.clamp(0, 255), blue: @blue, alpha: @alpha)
     end
 
-    def with_blue(blue: @blue)
+    def with_blue(blue)
       Color.new(red: @red, green: @green, blue: blue.clamp(0, 255), alpha: @alpha)
     end
 
-    def with_alpha(alpha: @alpha)
+    def with_alpha(alpha)
       Color.new(red: @red, green: @green, blue: @blue, alpha: alpha.clamp(0, 255))
     end
 
-    def set_red!(red: @red)
+    def set_red!(red)
       @red = red.clamp(0, 255)
       self
     end
 
-    def set_green!(green: @green)
+    def set_green!(green)
       @green = green.clamp(0, 255)
       self
     end
 
-    def set_blue!(blue: @blue)
+    def set_blue!(blue)
       @blue = blue.clamp(0, 255)
       self
     end
 
-    def set_alpha!(alpha: @alpha)
+    def set_alpha!(alpha)
       @alpha = alpha.clamp(0, 255)
       self
     end
