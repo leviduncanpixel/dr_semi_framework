@@ -1,4 +1,4 @@
-require "/app/serialize.rb"
+require "app/serialize.rb"
 
 module DRF
   class Color
