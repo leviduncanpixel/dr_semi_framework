@@ -66,5 +66,6 @@ mygame/metadata/
 mygame/sounds/
 mygame/sprites/
 .gitignore
-
+*.txt
+ctags*
 *.ttf
