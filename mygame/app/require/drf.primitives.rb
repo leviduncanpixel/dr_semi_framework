@@ -258,8 +258,8 @@ module DRF
     end
 
     def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
-                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: 1280,
-                   source_height: 720, flip_horizontally: false, flip_vertically: false,
+                   angle: 0, source_x_pos: nil, source_y_pos: nil, source_width: nil,
+                   source_height: nil, flip_horizontally: false, flip_vertically: false,
                    color: Color::WHITE, angle_anchor_x: 0.5, angle_anchor_y: 0.5)
       super(x_pos: x_pos, y_pos: y_pos, width: width, height:height, color: color)
       @path = path
@@ -312,9 +312,9 @@ module DRF
     end
 
     def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
-                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: 0,
-                   source_height: 0, flip_horizontally: false, flip_vertically: false,
-                   color: Color::WHITE, angle_anchor_x: 0, angle_anchor_y: 0)
+                   angle: 0, source_x_pos: nil, source_y_pos: nil, source_width: nil,
+                   source_height: nil, flip_horizontally: false, flip_vertically: false,
+                   color: Color::WHITE, angle_anchor_x: 0.5, angle_anchor_y: 0.5)
       super(x_pos: x_pos, y_pos: y_pos, width: width, height: height, path: path,
             angle: angle, source_x_pos: source_x_pos, source_y_pos: source_y_pos,
             source_width: source_width, source_height: source_height,
