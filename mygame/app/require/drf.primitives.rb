@@ -258,16 +258,20 @@ module DRF
     end
 
     def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
-                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: -1,
-                   source_height: -1, flip_horizontally: false, flip_vertically: false,
-                   color: Color::WHITE, angle_anchor_x: 0, angle_anchor_y: 0)
+                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: 1280,
+                   source_height: 720, flip_horizontally: false, flip_vertically: false,
+                   color: Color::WHITE, angle_anchor_x: 0.5, angle_anchor_y: 0.5)
       super(x_pos: x_pos, y_pos: y_pos, width: width, height:height, color: color)
       @path = path
       @angle = angle
       @source_x_pos = source_x_pos
+      @tile_x_pos = source_x_pos
       @source_y_pos = source_y_pos
+      @tile_y_pos = source_y_pos
       @source_width = source_width
+      @tile_width = source_width
       @source_height = source_height
+      @tile_height = source_height
       @flip_horizontally = flip_horizontally
       @flip_vertically = flip_vertically
       @angle_anchor_x = angle_anchor_x
@@ -285,7 +289,8 @@ module DRF
     end
 
     attr_reader :path, :angle, :source_x_pos, :source_y_pos, :source_width,
-                :source_height, :flip_horizontally, :flip_vertically,
+                :source_height,:tile_x_pos, :tile_y_pos, :tile_width,
+                :tile_height, :flip_horizontally, :flip_vertically,
                 :angle_anchor_x, :angle_anchor_y
 
 
@@ -293,6 +298,10 @@ module DRF
     alias source_y source_y_pos
     alias source_w source_width
     alias source_h source_height
+    alias tile_x tile_x_pos
+    alias tile_y tile_y_pos
+    alias tile_w tile_width
+    alias tile_h tile_height
 
     include Serialize
   end
