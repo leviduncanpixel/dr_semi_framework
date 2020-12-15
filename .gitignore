@@ -69,3 +69,8 @@ mygame/sprites/
 *.txt
 ctags*
 *.ttf
+*.png
+test.rb
+include
+*.so
+.dragonruby/*

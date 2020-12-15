@@ -1,4 +1,6 @@
-require "app/serialize.rb"
+# frozen_string_literal: true
+
+require 'app/convenience.rb'
 
 module DRF
   class Color
@@ -81,8 +83,8 @@ module DRF
     end
 
     def set_pos!(x_pos: @x_pos, y_pos: @y_pos)
-      @x_pos = x_pos#.clamp(0, 1280)
-      @y_pos = y_pos#.clamp(0, 720)
+      @x_pos = x_pos
+      @y_pos = y_pos
       self
     end
 
@@ -122,8 +124,7 @@ module DRF
     end
 
     def make_new_with(x_pos: @x_pos, x_comp: 0, y_pos: @y_pos, y_comp: 0, width: @width, height: @height, color: @color)
-      # self.class.new(x_pos: x_pos, y_pos: y_pos, color: color, width: width, height: height).add_pos!(x_comp: x_comp, y_comp: y_comp)
-      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp).set_sizes!(width: width, height: height)
+      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color, width: width, height: height).add_pos!(x_comp: x_comp, y_comp: y_comp)
     end
 
     attr_reader :width, :height
@@ -150,7 +151,7 @@ module DRF
       :label
     end
 
-    def initialize(x_pos: 0, y_pos: 0, text: "", color: Color::BLACK, font: "font.ttf", size: 0, alignment: 0)
+    def initialize(x_pos: 0, y_pos: 0, text: '', color: Color::BLACK, font: 'font.ttf', size: 0, alignment: 0)
       super(x_pos: x_pos, y_pos: y_pos, color: color)
       @text = text
       @font = font
@@ -168,7 +169,7 @@ module DRF
       :static_label
     end
 
-    def initialize(x_pos: 0, y_pos: 0, text: "", color: Color::BLACK, font: "font.ttf", size: 0, alignment: 0)
+    def initialize(x_pos: 0, y_pos: 0, text: '', color: Color::BLACK, font: 'font.ttf', size: 0, alignment: 0)
       super(x_pos: x_pos, y_pos: y_pos, text: text, color: color, font: font, size: size, alignment: alignment)
       $gtk.args.outputs.static_labels << self
     end
@@ -192,7 +193,7 @@ module DRF
     end
 
     def make_new_with(x_pos: @x_pos, x_comp: 0, y_pos: @y_pos, y_comp: 0, width: @width, height: @height, color: @color)
-      self.class.new(x_pos: x_pos, y_pos: y_pos, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp).set_sizes!(width: width, height: height)
+      self.class.new(x_pos: x_pos, y_pos: y_pos, width: width, height: height, color: color).add_pos!(x_comp: x_comp, y_comp: y_comp)
     end
 
     attr_reader :width, :height
@@ -249,7 +250,20 @@ module DRF
 
     def initialize(x_pos1: 0, y_pos1: 0, x_pos2: 0, y_pos2: 0, color: Color::BLACK)
       super(x_pos1: x_pos1, y_pos1: y_pos1, x_pos2: x_pos2, y_pos2: y_pos2, color: color)
-      $gtk.args.outputs.static_lines << self
+      $gtk.outputs.static_lines << self
     end
+  end
+
+  class Sprite < Primitive
+    def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
+       angle: 0, tile_x_pos: 0, tile_y_pos: 0, tile_width: 0, tile_height: 0,
+        flip_horizontally: false, flip_vertically: false, color: Color::WHITE,
+         angle_anchor_x: 0, angle_anchor_y: 0)
+      local_variables.each do |name|
+        instance_eval("@#{name} = #{name}")
+      end
+    end
+
+    include Serialize
   end
 end
