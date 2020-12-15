@@ -74,3 +74,5 @@ test.rb
 include
 *.so
 .dragonruby/*
+.projectile
+*#

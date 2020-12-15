@@ -252,16 +252,66 @@ module DRF
     end
   end
 
-  class Sprite < Primitive
-    def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
-       angle: 0, tile_x_pos: 0, tile_y_pos: 0, tile_width: 0, tile_height: 0,
-        flip_horizontally: false, flip_vertically: false, color: Color::WHITE,
-         angle_anchor_x: 0, angle_anchor_y: 0)
-      local_variables.each do |name|
-        instance_eval("@#{name} = #{name}")
-      end
+  class Sprite < Solid
+    def primitive_marker
+      :sprite
     end
 
+    def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
+                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: -1,
+                   source_height: -1, flip_horizontally: false, flip_vertically: false,
+                   color: Color::WHITE, angle_anchor_x: 0, angle_anchor_y: 0)
+      super(x_pos: x_pos, y_pos: y_pos, width: width, height:height, color: color)
+      @path = path
+      @angle = angle
+      @source_x_pos = source_x_pos
+      @source_y_pos = source_y_pos
+      @source_width = source_width
+      @source_height = source_height
+      @flip_horizontally = flip_horizontally
+      @flip_vertically = flip_vertically
+      @angle_anchor_x = angle_anchor_x
+      @angle_anchor_y = angle_anchor_y
+    end
+
+    def flip!(horizontally = false, vertically = false)
+      (@flip_horizontally = !@flip_horizontally) if horizontally
+      (@flip_vertically = !@flip_vertically) if vertically
+    end
+
+    def set_angle_anchor!(angle_a_x: @angle_anchor_x, angle_a_y: @angle_anchor_y)
+      @angle_anchor_x = angle_a_x
+      @angle_anchor_y = angle_a_y
+    end
+
+    attr_reader :path, :angle, :source_x_pos, :source_y_pos, :source_width,
+                :source_height, :flip_horizontally, :flip_vertically,
+                :angle_anchor_x, :angle_anchor_y
+
+
+    alias source_x source_x_pos
+    alias source_y source_y_pos
+    alias source_w source_width
+    alias source_h source_height
+
     include Serialize
+  end
+
+  class StaticSprite < Sprite
+    def primitive_marker
+      :static_sprite
+    end
+
+    def initialize(x_pos: 0, y_pos: 0, width: 0, height: 0, path: 'dragonruby.png',
+                   angle: 0, source_x_pos: 0, source_y_pos: 0, source_width: 0,
+                   source_height: 0, flip_horizontally: false, flip_vertically: false,
+                   color: Color::WHITE, angle_anchor_x: 0, angle_anchor_y: 0)
+      super(x_pos: x_pos, y_pos: y_pos, width: width, height: height, path: path,
+            angle: angle, source_x_pos: source_x_pos, source_y_pos: source_y_pos,
+            source_width: source_width, source_height: source_height,
+            flip_horizontally: flip_horizontally, flip_vertically: flip_vertically, color: color,
+            angle_anchor_x: angle_anchor_x, angle_anchor_y: angle_anchor_y)
+      $gtk.args.outputs.static_sprites << self
+    end
   end
 end
