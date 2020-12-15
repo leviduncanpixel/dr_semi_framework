@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'app/drf.primitives.rb'
+require 'app/require/index.rb'
 
 def tick(args)
   if args.state.tick_count == 2

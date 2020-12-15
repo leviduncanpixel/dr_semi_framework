@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'app/convenience.rb'
-
 module DRF
   class Color
     def initialize(red: 0, green: 0, blue: 0, alpha: 255)
