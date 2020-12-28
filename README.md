@@ -13,3 +13,6 @@
 > > -  StaticLine
 
 ###### LeviDuncanPixel
+
+> ### Please note that the library is still under development and design, so don't get too attached to current methods and parameter names
+> ### The README may also not be kept up-to-date due to reasons stated earlier
